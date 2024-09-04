@@ -1,0 +1,48 @@
+- MainController/MainModel/MainInteractor all initialize their sub-files
+in their constructor and have (public?) getters for them. In those getter
+functions functionality for security/typechecking can be added.
+
+- For event handling, currently two possible options in my head:
+1. Add event filters at every level which will consume irrelevant events
+2. Add event filters only at the root level, which will check the target of
+the event against the refs in the registry, e.g.: 
+	if (e.getTarget().equals(registry.getComponentRef(EnumName)) {
+	// blah blah blah
+	}
+
+Components:
+- Each Component "knows" what type of Model/Controller it needs and uses
+that during declaration/initialization of the refs.
+
+- Each Component has setController/SetModel methods to get a ref of their
+respective models/controllers. Those methods are called by the MainController
+during GUI initialization. The refs can then be used by the specific 
+components for specific bindings/reactivity methods.
+
+- Each Component makes decisions about is style. Decisions about layout/size,
+however are made by its parent.
+
+
+TODO:
+
+- For now everything is divided into packages according to what they are:
+controllers in one packet, models in another, etc. In the future it will
+probably need to be refactored into functional modules instead of the current
+package organization.
+
+TBD:
+ 
+- The Registry contains refs for everything in the app: controllers/sub-
+controllers, models/submodels, components etc. The encapsulation rules are
+still TBD.
+
+- The way the MainController/MainInteractor/MainModel interact is yet TBD.
+
+- It's unclear whether every interaction/binding between components/modules 
+needs to first pass through a controller. On one hand, it would probably
+simplify logging/debugging, but on the other hand it could end up in 
+tons of duplicate code. Might be a good trade-off, but I'm still not certain.
+
+Info about each Controller/Interactor:
+
+1. MainController: 
